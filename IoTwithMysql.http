@@ -1,0 +1,6 @@
+@IoTwithMysql_HostAddress = http://localhost:5037
+
+GET {{IoTwithMysql_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

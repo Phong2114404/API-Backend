@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "KUZlinKBRUMtImz+T2zGRI3zecvA8HnAlfaSlWZorWU=",
+  "Source": "IoTwithMysql",
+  "BasePath": "_content/IoTwithMysql",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
