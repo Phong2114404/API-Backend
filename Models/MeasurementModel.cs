@@ -5,9 +5,6 @@ namespace IoTwithMysql.Models
 {
     public class MeasurementModel
     {
-        [Required]
-        public Guid UserID { get; set; }
-
         [Required] 
         public decimal SpO2 { get; set; }
 

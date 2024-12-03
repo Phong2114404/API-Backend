@@ -18,7 +18,7 @@ namespace IoTwithMysql.Controllers
         }
 
         // GET: api/measurement
-        [HttpGet]
+        [HttpGet("GetAllMeasurements")]
         public async Task<IActionResult> GetAll()
         {
             // Lấy tất cả bản ghi Measurement
@@ -27,8 +27,8 @@ namespace IoTwithMysql.Controllers
         }
 
         // GET: api/measurement/{id}
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("GetMeasurementBy{MeasurementID:int}")]
+        public async Task<IActionResult> GetById(int MeasurementID)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace IoTwithMysql.Controllers
                         m.Weight,
                         m.Version
                     })
-                    .SingleOrDefaultAsync(m => m.MeasurementID == id);
+                    .SingleOrDefaultAsync(m => m.MeasurementID == MeasurementID);
 
                 if (measurement == null)
                 {
@@ -61,14 +61,14 @@ namespace IoTwithMysql.Controllers
         }
 
 
-        [HttpGet("{userId:Guid}")]
-        public async Task<IActionResult> GetByUserId(Guid userId)
+        [HttpGet("GetMeasurementsOf{UserID:guid}")]
+        public async Task<IActionResult> GetByUserId(Guid UserID)
         {
             try
             {
                 // Truy vấn theo UserID và chỉ lấy 10 lần đo gần nhất
                 var measurements = await _context.Measurements
-                    .Where(m => m.UserID == userId) // Lọc theo UserID
+                    .Where(m => m.UserID == UserID) // Lọc theo UserID
                     .OrderByDescending(m => m.MeasurementTime) // Sắp xếp theo thời gian giảm dần
                     .Take(10) // Lấy 10 bản ghi đầu tiên
                     .ToListAsync();
@@ -89,8 +89,8 @@ namespace IoTwithMysql.Controllers
         }
 
         // POST: api/measurement
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] MeasurementModel request)
+        [HttpPost("CreateMeasurementof{UserID:guid}")]
+        public async Task<IActionResult> Create(Guid UserID, [FromBody] MeasurementModel request)
         {
             if (!ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace IoTwithMysql.Controllers
                 // Tạo đối tượng Measurement mới
                 var measurement = new Measurement
                 {
-                    UserID = request.UserID,         // Gán UserID từ request
+                    UserID = UserID,         // Gán UserID từ request
                     SpO2 = request.SpO2,            // Gán giá trị SpO2
                     Temp = request.Temp,            // Gán giá trị nhiệt độ
                     HeartRate = request.HeartRate,  // Gán giá trị nhịp tim
@@ -124,8 +124,8 @@ namespace IoTwithMysql.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] MeasurementModel measurementUpdate)
+        [HttpPut("Edit{MeasurementID:int}")]
+        public async Task<IActionResult> Update(int MeasurementID, [FromBody] MeasurementModel measurementUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -137,17 +137,11 @@ namespace IoTwithMysql.Controllers
                 // Lấy Measurement cần cập nhật
                 var measurement = await _context.Measurements
                     .Include(m => m.User) // Bao gồm User để kiểm tra UserID
-                    .SingleOrDefaultAsync(m => m.MeasurementID == id);
+                    .SingleOrDefaultAsync(m => m.MeasurementID == MeasurementID);
 
                 if (measurement == null)
                 {
                     return NotFound(new { Message = "Measurement not found." });
-                }
-
-                // Kiểm tra UserID
-                if (measurement.UserID != measurementUpdate.UserID)
-                {
-                    return BadRequest(new { Message = "UserID does not match with the Measurement." });
                 }
 
                 // Cập nhật giá trị
@@ -170,13 +164,13 @@ namespace IoTwithMysql.Controllers
         }
 
         // DELETE: api/measurement/{id}
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("Delete{MeasurementID:int}")]
+        public async Task<IActionResult> Delete(int MeasurementID)
         {
             try
             {
                 // Lấy Measurement cần xóa
-                var measurement = await _context.Measurements.SingleOrDefaultAsync(m => m.MeasurementID == id);
+                var measurement = await _context.Measurements.SingleOrDefaultAsync(m => m.MeasurementID == MeasurementID);
 
                 if (measurement == null)
                 {
@@ -194,6 +188,34 @@ namespace IoTwithMysql.Controllers
                 return BadRequest(new { Message = "Error while deleting the measurement." });
             }
         }
+
+        [HttpDelete("DeleteMeasurementsOf{UserID:guid}")]
+        public async Task<IActionResult> DeleteMeasurementsByUserId(Guid UserID)
+        {
+            try
+            {
+                // Lấy tất cả measurements thuộc UserID
+                var measurements = await _context.Measurements
+                    .Where(m => m.UserID == UserID)
+                    .ToListAsync();
+
+                if (measurements.Count == 0)
+                {
+                    return NotFound(new { Message = "No measurements found for the specified UserID." });
+                }
+
+                // Xóa tất cả measurements
+                _context.Measurements.RemoveRange(measurements);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { Message = "All measurements for the user have been deleted." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error while deleting measurements.", Details = ex.Message });
+            }
+        }
+
 
     }
 }

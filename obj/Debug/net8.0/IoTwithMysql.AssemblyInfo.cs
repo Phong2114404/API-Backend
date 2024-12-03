@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IoTwithMysql")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b0a5a4c244936b83e8f034ab5bfaebacc3fc11f")]
 [assembly: System.Reflection.AssemblyProductAttribute("IoTwithMysql")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IoTwithMysql")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace IoTwithMysql.Data
 {
     [Table("User")]
+    [Index(nameof(UserName), IsUnique = true)]
     public class User
     {
         [Key]

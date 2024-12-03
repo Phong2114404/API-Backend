@@ -5,40 +5,11 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Measurement": {
+    "/api/Measurement/GetAllMeasurements": {
       "get": {
         "tags": [
           "Measurement"
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Measurement"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
@@ -46,75 +17,14 @@
         }
       }
     },
-    "/api/Measurement/{id}": {
+    "/api/Measurement/GetMeasurementBy{MeasurementID}": {
       "get": {
         "tags": [
           "Measurement"
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Measurement"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Measurement"
-        ],
-        "parameters": [
-          {
-            "name": "id",
+            "name": "MeasurementID",
             "in": "path",
             "required": true,
             "schema": {
@@ -130,14 +40,14 @@
         }
       }
     },
-    "/api/Measurement/{userId}": {
+    "/api/Measurement/GetMeasurementsOf{UserID}": {
       "get": {
         "tags": [
           "Measurement"
         ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "UserID",
             "in": "path",
             "required": true,
             "schema": {
@@ -153,7 +63,137 @@
         }
       }
     },
-    "/api/Sensor": {
+    "/api/Measurement/CreateMeasurementof{UserID}": {
+      "post": {
+        "tags": [
+          "Measurement"
+        ],
+        "parameters": [
+          {
+            "name": "UserID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Measurement/Edit{MeasurementID}": {
+      "put": {
+        "tags": [
+          "Measurement"
+        ],
+        "parameters": [
+          {
+            "name": "MeasurementID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.MeasurementModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Measurement/Delete{MeasurementID}": {
+      "delete": {
+        "tags": [
+          "Measurement"
+        ],
+        "parameters": [
+          {
+            "name": "MeasurementID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Measurement/DeleteMeasurementsOf{UserID}": {
+      "delete": {
+        "tags": [
+          "Measurement"
+        ],
+        "parameters": [
+          {
+            "name": "UserID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Sensor/GetAllVersions": {
       "get": {
         "tags": [
           "Sensor"
@@ -163,7 +203,21 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/api/Sensor/GetLastestVersion": {
+      "get": {
+        "tags": [
+          "Sensor"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Sensor/UpdateNewVersion": {
       "post": {
         "tags": [
           "Sensor"
@@ -194,8 +248,50 @@
         }
       }
     },
-    "/api/Sensor/{version}": {
-      "get": {
+    "/api/Sensor/Edit{version}": {
+      "put": {
+        "tags": [
+          "Sensor"
+        ],
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.SensorModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.SensorModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.SensorModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Sensor/Delete{version}": {
+      "delete": {
         "tags": [
           "Sensor"
         ],
@@ -215,59 +311,33 @@
             "description": "OK"
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/User/GetAllUsers": {
+      "get": {
         "tags": [
-          "Sensor"
+          "User"
         ],
-        "parameters": [
-          {
-            "name": "version",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.SensorModel"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.SensorModel"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/IoTwithMysql.Models.SensorModel"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/User/GetInforBy{UserID}": {
+      "get": {
         "tags": [
-          "Sensor"
+          "User"
         ],
         "parameters": [
           {
-            "name": "version",
+            "name": "UserID",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -278,17 +348,29 @@
         }
       }
     },
-    "/api/User": {
+    "/api/User/GetIDby{UserName}": {
       "get": {
         "tags": [
           "User"
+        ],
+        "parameters": [
+          {
+            "name": "UserName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/api/User/CreateNewUser": {
       "post": {
         "tags": [
           "User"
@@ -319,35 +401,14 @@
         }
       }
     },
-    "/api/User/{id}": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
+    "/api/User/Edit{UserID}": {
       "put": {
         "tags": [
           "User"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "UserID",
             "in": "path",
             "required": true,
             "schema": {
@@ -380,14 +441,57 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/api/User/ChangePassword{UserName}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "UserName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.ChangePasswordRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.ChangePasswordRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IoTwithMysql.Models.ChangePasswordRequestModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/User/Delete{UserID}": {
       "delete": {
         "tags": [
           "User"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "UserID",
             "in": "path",
             "required": true,
             "schema": {
@@ -406,21 +510,34 @@
   },
   "components": {
     "schemas": {
+      "IoTwithMysql.Models.ChangePasswordRequestModel": {
+        "required": [
+          "newPassword",
+          "oldPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "newPassword": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "IoTwithMysql.Models.MeasurementModel": {
         "required": [
           "heartRate",
           "spO2",
           "temp",
-          "userID",
           "version",
           "weight"
         ],
         "type": "object",
         "properties": {
-          "userID": {
-            "type": "string",
-            "format": "uuid"
-          },
           "spO2": {
             "type": "number",
             "format": "double"

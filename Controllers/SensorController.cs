@@ -17,7 +17,7 @@ namespace IoTwithMysql.Controllers
         }
 
         // Lấy tất cả sensor
-        [HttpGet]
+        [HttpGet("GetAllVersions")]
         public async Task<IActionResult> GetAllSensors()
         {
             try
@@ -31,29 +31,33 @@ namespace IoTwithMysql.Controllers
             }
         }
 
-        // Lấy sensor theo version
-        [HttpGet("{version:int}")]
-        public async Task<IActionResult> GetSensorByVersion(int version)
+        // Lấy phiên bản cuối cùng của bộ sensor
+        [HttpGet("GetLastestVersion")]
+        public async Task<IActionResult> GetLatestSensor()
         {
             try
             {
-                var sensor = await _context.Sensors.SingleOrDefaultAsync(s => s.Version == version);
+                // Lấy sensor cuối cùng theo Version (hoặc ID, tùy thuộc vào cột bạn dùng để xác định)
+                var latestSensor = await _context.Sensors
+                    .OrderByDescending(s => s.Version) // Sắp xếp giảm dần theo Version
+                    .FirstOrDefaultAsync();            // Lấy bản ghi đầu tiên
 
-                if (sensor == null)
+                if (latestSensor == null)
                 {
-                    return NotFound(new { Message = "Sensor not found." });
+                    return NotFound(new { Message = "No version found in the database." });
                 }
 
-                return Ok(sensor);
+                return Ok(latestSensor); // Trả về sensor cuối cùng
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Message = "Error while fetching the sensor.", Details = ex.Message });
+                return BadRequest(new { Message = "Error while fetching the latest version.", Details = ex.Message });
             }
         }
 
+
         // Tạo version mới cho bộ sensor
-        [HttpPost]
+        [HttpPost("UpdateNewVersion")]
         public async Task<IActionResult> CreateSensor([FromBody] SensorModel sensorModel)
         {
             if (!ModelState.IsValid)
@@ -85,7 +89,7 @@ namespace IoTwithMysql.Controllers
         }
 
         // Cập nhật phiên bản sensor (Không nên dùng) => dùng POST để tạo version mới
-        [HttpPut("{version:int}")]
+        [HttpPut("Edit{version:int}")]
         public async Task<IActionResult> UpdateSensor(int version, [FromBody] SensorModel sensorModel)
         {
             if (!ModelState.IsValid)
@@ -120,8 +124,8 @@ namespace IoTwithMysql.Controllers
             }
         }
 
-        // Xóa phiên bản sensor
-        [HttpDelete("{version:int}")]
+        // Xóa phiên bản sensor --Không nên dùng, nên tạo một phiên bản mới
+        [HttpDelete("Delete{version:int}")]
         public async Task<IActionResult> DeleteSensor(int version)
         {
             try
@@ -136,7 +140,7 @@ namespace IoTwithMysql.Controllers
                 _context.Sensors.Remove(sensor);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { Message = "Sensor deleted successfully." });
+                return Ok(new { Message = "Verison of Sensors deleted successfully." });
             }
             catch (Exception ex)
             {
